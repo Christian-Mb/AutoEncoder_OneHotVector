@@ -5,7 +5,8 @@ import os
 import mysql.connector
 from sklearn.feature_extraction.text import CountVectorizer
 from scipy import sparse
-
+from keras.models import load_model
+import numpy as np
 
 
 class Connect:
@@ -16,7 +17,7 @@ class Connect:
         user = "root",
         passwd = "root",
         port = 8889,
-        database = "agenda"
+        database = "mashup"
     )
 
 
@@ -26,7 +27,7 @@ class AutoEncoder:
 
         db = Connect.db
         mycursor = db.cursor()
-        mycursor.execute("SELECT theme FROM theme")
+        mycursor.execute("SELECT distinct VUE FROM concatenation")
         result = mycursor.fetchall()  # requête qui récupères toutes les données de la requête
 
         list = []
@@ -36,7 +37,6 @@ class AutoEncoder:
             x = str(x)
             x = x[2:]
             x = x[:-3]
-            print(" \n", x)
             list.append(x)
 
         vectorizer = CountVectorizer()
@@ -53,7 +53,6 @@ class AutoEncoder:
 
         self.encoding_dim = encoding_dim
         self.x = self.oneHot()
-        print(self.x)
 
 
 
@@ -66,7 +65,7 @@ class AutoEncoder:
 
     def _decoder(self):
         inputs = Input(shape=(self.encoding_dim,))
-        decoded = Dense(39)(inputs)
+        decoded = Dense(self.encoding_dim)(inputs)
         model = Model(inputs, decoded)
         self.decoder = model
         return model
@@ -114,9 +113,9 @@ class AutoEncoder:
 
 if __name__ == '__main__':
 
-    ae = AutoEncoder(encoding_dim=39)
-    ae.encoder_decoder()
-    ae.fit(batch_size=50, epochs=300)
-    ae.save()
-    ae.test()
+    #ae = AutoEncoder(encoding_dim=16217)
+    #ae.encoder_decoder()
+    #ae.fit(batch_size=10, epochs=50)
+    #ae.save()
+    #ae.test()
 

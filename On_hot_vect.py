@@ -5,7 +5,7 @@ import pandas as pd
 data = [["je"],["suis"]]
 print(data)
 # define universe of possible input values
-alphabet = 'abcdefghijklmnopqrstuvwxyz '
+alphabet = 'abcdefghijklmnopqrstuvwxyz'
 # define a mapping of chars to integers
 char_to_int = dict((c, i) for i, c in enumerate(alphabet))
 int_to_char = dict((i, c) for i, c in enumerate(alphabet))
